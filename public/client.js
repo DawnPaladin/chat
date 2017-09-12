@@ -1,5 +1,14 @@
 var socket = io.connect();
 socket.emit('connect');
+
+socket.on('backscroll', function(backscroll) {
+	console.log('backscroll', backscroll);
+	const formatted = backscroll.map(line => formatMessage(line.author, line.msg));
+	formatted.forEach(line => {
+		$('#room1').append(line);
+	})
+});
+
 socket.on('message', function(message) {
 	$('#room1').append(message);
 });
@@ -23,3 +32,5 @@ $('#username').on('change', function(e) {
 	console.log(username);
 	socket.emit('set username', username);
 });
+
+const formatMessage = (author, msg) => `<p class='chatline'><span class='chatline-author'>${author}:</span> ${msg}`;

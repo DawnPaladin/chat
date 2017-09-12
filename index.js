@@ -16,19 +16,21 @@ io.on('connect', (socket) => {
 	let username = "anonymous";
 	clients[socket.id] = username;	
 	io.emit('users updated', listClients());
+	socket.emit('backscroll', persistence.loadRoom());
 	socket.on('message', message => {
 		console.log(username + ': ' + message);
+		persistence.saveLine(username, message);
 		io.emit('message', formatMessage(username, message));
 	});
 	socket.on('set username', newUsername => {
 		clients[socket.id] = username = newUsername;
 		io.emit('users updated', listClients());
-	})
+	});
 	socket.on('disconnect', function() {
 		delete clients[socket.id];
 		console.log("disconnected");
 		io.emit('users updated', listClients());
-	})
+	});
 });
 
 server.listen(3030, function() {
