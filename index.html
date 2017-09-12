@@ -11,24 +11,27 @@
 <body>
 	<div class="container">
 		<div class="row justify-content-center">
+			<h1 class="display-4 ">Allchat</h1>
+		</div>
+		<div class="row justify-content-center">
 			<div class="col-md-4">
-				<h1 class="display-4">Allchat</h1>
-				
-					<label>Your name: <input id="username" class="form-control" /></label>
-					
-					<div class="card">
-						<div id="room1" class="card-body"></div>
-						<div class="card-footer">
-							<div class="input-group">
-								<input id="input-line" class="form-control" />
-								<span class="input-group-btn">
-									<button class="btn btn-default" id="send-btn">Send</button>
-								</span>
-							</div>
+				<label>Your name: <input id="username" class="form-control" /></label>
+				<div class="card">
+					<div id="room1" class="card-body"></div>
+					<div class="card-footer">
+						<div class="input-group">
+							<input id="input-line" class="form-control" />
+							<span class="input-group-btn">
+								<button class="btn btn-default" id="send-btn">Send</button>
+							</span>
 						</div>
 					</div>
-
 				</div>
+			</div>
+			<div class="col-md-2">
+				<strong>Connected users</strong>
+				<ul id="users-list"></ul>
+			</div>
 		</div>
 	</div>
 
