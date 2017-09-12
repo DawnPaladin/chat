@@ -1,7 +1,7 @@
 var socket = io.connect();
 socket.emit('connect');
 socket.on('message', function(message) {
-	$('#room1').append('<p>' + message + '</p>');
+	$('#room1').append(message);
 });
 socket.on('users updated', function(users) {
 	console.log(users);

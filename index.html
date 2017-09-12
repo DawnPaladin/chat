@@ -15,16 +15,18 @@
 		</div>
 		<div class="row justify-content-center">
 			<div class="col-md-4">
-				<label>Your name: <input id="username" class="form-control" /></label>
+				<label>Your name: <input id="username" class="form-control" placeholder="anonymous" /></label>
 				<div class="card">
 					<div id="room1" class="card-body"></div>
 					<div class="card-footer">
-						<div class="input-group">
-							<input id="input-line" class="form-control" />
-							<span class="input-group-btn">
-								<button class="btn btn-default" id="send-btn">Send</button>
-							</span>
-						</div>
+						<form action="javascript:void(0);">
+							<div class="input-group-btn">
+								<input id="input-line" class="form-control" />
+								<span class="input-group-btn">
+									<input type="submit" class="btn btn-default" id="send-btn">Send</button>
+								</span>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

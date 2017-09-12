@@ -1,3 +1,10 @@
 #room1 {
 	min-height: 10em;
 }
+
+.chatline {
+	margin-bottom: .25rem;
+}
+.chatline-author {
+	font-weight: bold;
+}
