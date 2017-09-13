@@ -17,7 +17,6 @@ function listRooms() {
 }
 
 function saveLine(author, msg, roomName) {
-	console.log ("Saving",author,msg);
 	db.update(roomName, oldRoom => {
 		let chatline = { author, msg };
 		oldRoom.push(chatline);
@@ -27,7 +26,6 @@ function saveLine(author, msg, roomName) {
 
 function loadRoom(roomName) {
 	const data = db.get(roomName);
-	console.log("Loading", roomName, data);
 	return data;
 }
 

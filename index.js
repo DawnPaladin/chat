@@ -17,7 +17,6 @@ var clients = {};
 io.on('connect', (socket) => {
 	var roomName = socket.handshake.query.room;
 	if (roomName == "null") roomName = defaultRoom;
-	console.log("Room:", roomName);
 	let username = "anonymous";
 	clients[socket.id] = username;	
 	io.emit('users updated', listClients());
@@ -25,7 +24,6 @@ io.on('connect', (socket) => {
 	socket.emit('backscroll', persistence.loadRoom(roomName));
 	socket.emit('rooms list', roomsList);
 	socket.on('message', message => {
-		console.log(username + ': ' + message);
 		persistence.saveLine(username, message, roomName);
 		io.emit('message', formatMessage(username, message));
 	});
@@ -40,7 +38,6 @@ io.on('connect', (socket) => {
 	});
 	socket.on('disconnect', function() {
 		delete clients[socket.id];
-		console.log("disconnected");
 		io.emit('users updated', listClients());
 	});
 });
