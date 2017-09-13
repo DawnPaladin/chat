@@ -1,3 +1,5 @@
+const defaultRoom = "room1";
+
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
@@ -13,11 +15,13 @@ app.get('/', (req, res) => {
 var clients = {};
 
 io.on('connect', (socket) => {
+	var roomName = socket.handshake.query.room;
+	if (roomName == "null") roomName = defaultRoom;
+	console.log("Room:", roomName);
 	let username = "anonymous";
 	clients[socket.id] = username;	
 	io.emit('users updated', listClients());
 	let roomsList = persistence.listRooms();
-	var roomName = roomsList[0];
 	socket.emit('backscroll', persistence.loadRoom(roomName));
 	socket.emit('rooms list', roomsList);
 	socket.on('message', message => {

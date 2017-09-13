@@ -27,15 +27,18 @@ function saveLine(author, msg, roomName) {
 
 function loadRoom(roomName) {
 	const data = db.get(roomName);
-	console.log("Loading", data);
+	console.log("Loading", roomName, data);
 	return data;
 }
 
 function createRoom(roomName) {
+	if (db.get('rooms').includes(roomName)) return false;
 	db.update('rooms', array => {
 		array.push(roomName);
 		return array;
 	});
+	db.set(roomName, []);
+	return true;
 }
 
 module.exports = {

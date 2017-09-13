@@ -1,4 +1,4 @@
-#room1 {
+#chat-room {
 	min-height: 10em;
 }
 
@@ -6,5 +6,9 @@
 	margin-bottom: .25rem;
 }
 .chatline-author {
+	font-weight: bold;
+}
+
+.current-room-link {
 	font-weight: bold;
 }

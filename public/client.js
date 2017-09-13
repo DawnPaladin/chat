@@ -1,24 +1,35 @@
-var socket = io.connect();
-socket.emit('connect');
+const searchParams = new URLSearchParams(window.location.search);
+var currentRoom = searchParams.get('room');
+if (!currentRoom) {
+	currentRoom = 'room1';
+	searchParams.set('room', currentRoom);
+	window.history.replaceState({}, '', `${location.pathname}?${searchParams}`);
+}
+
+var socket = io.connect({query: "room=" + currentRoom});
+
+socket.emit('connect', currentRoom);
+$('#room-name').text(currentRoom);
 
 socket.on('backscroll', function(backscroll) {
 	console.log('backscroll', backscroll);
 	const formatted = backscroll.map(line => formatMessage(line.author, line.msg));
 	formatted.forEach(line => {
-		$('#room1').append(line);
-	})
+		$('#chat-room').append(line);
+	});
 });
 
 socket.on('rooms list', function(roomsList) {
 	console.log('rooms list', roomsList);
 	$('#rooms-list').empty();
 	roomsList.forEach(function(room) {
-		$('#rooms-list').append("<li>" + room + "</li>");
-	})
+		$('#rooms-list').append(`<li><a id='room-${room}-link' href='?room=${room}'>${room}</li>`);
+	});
+	$(`#room-${currentRoom}-link`).addClass('current-room-link');
 });
 
 socket.on('message', function(message) {
-	$('#room1').append(message);
+	$('#chat-room').append(message);
 });
 socket.on('users updated', function(users) {
 	console.log(users);
@@ -26,7 +37,7 @@ socket.on('users updated', function(users) {
 	users.forEach(function(user) {
 		$('#users-list').append('<li>' + user + '</li>');
 	});
-})
+});
 
 $('#send-btn').on('click', function() {
 	var message = $('#input-line').val();
