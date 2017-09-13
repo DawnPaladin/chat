@@ -43,6 +43,7 @@ $('#send-btn').on('click', function() {
 	var message = $('#input-line').val();
 	console.log("Transmitting", message, socket);
 	socket.emit('message', message);
+	$('#input-line').val('');
 });
 
 var username;

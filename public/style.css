@@ -1,5 +1,7 @@
 #chat-room {
 	min-height: 10em;
+	max-height: 30em;
+	overflow-y: auto;
 }
 
 .chatline {
