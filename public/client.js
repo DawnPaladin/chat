@@ -9,6 +9,14 @@ socket.on('backscroll', function(backscroll) {
 	})
 });
 
+socket.on('rooms list', function(roomsList) {
+	console.log('rooms list', roomsList);
+	$('#rooms-list').empty();
+	roomsList.forEach(function(room) {
+		$('#rooms-list').append("<li>" + room + "</li>");
+	})
+});
+
 socket.on('message', function(message) {
 	$('#room1').append(message);
 });

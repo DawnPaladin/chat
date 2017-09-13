@@ -1,22 +1,32 @@
 const dirty = require('dirty');
 const db = dirty('chats.db');
 
+function initializeDatabase() {
+	if (!db.get('rooms')) {
+		db.set('rooms', ['room1']);
+		db.set('room1', []);
+	}
+}
+
 db.on('load', function() {
-	var room1 = loadRoom() || [];
-	db.set('room1', room1);
+	initializeDatabase();
 });
 
-function saveLine(author, msg) {
+function listRooms() {
+	return db.get('rooms');
+}
+
+function saveLine(author, msg, roomName) {
 	console.log ("Saving",author,msg);
-	db.update('room1', oldRoom => {
+	db.update(roomName, oldRoom => {
 		let chatline = { author, msg };
 		oldRoom.push(chatline);
 		return oldRoom;
 	});
 }
 
-function loadRoom() {
-	const data = db.get('room1');
+function loadRoom(roomName) {
+	const data = db.get(roomName);
 	console.log("Loading", data);
 	return data;
 }
@@ -24,4 +34,5 @@ function loadRoom() {
 module.exports = {
 	saveLine, 
 	loadRoom,
+	listRooms,
 };

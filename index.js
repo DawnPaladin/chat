@@ -16,10 +16,13 @@ io.on('connect', (socket) => {
 	let username = "anonymous";
 	clients[socket.id] = username;	
 	io.emit('users updated', listClients());
-	socket.emit('backscroll', persistence.loadRoom());
+	const roomsList = persistence.listRooms();
+	var roomName = roomsList[0];
+	socket.emit('backscroll', persistence.loadRoom(roomName));
+	socket.emit('rooms list', roomsList);
 	socket.on('message', message => {
 		console.log(username + ': ' + message);
-		persistence.saveLine(username, message);
+		persistence.saveLine(username, message, roomName);
 		io.emit('message', formatMessage(username, message));
 	});
 	socket.on('set username', newUsername => {
