@@ -17,7 +17,9 @@ var clients = {};
 io.on('connect', (socket) => {
 	var roomName = socket.handshake.query.room;
 	if (roomName == "null") roomName = defaultRoom;
-	let username = "anonymous";
+	var username = socket.handshake.query.user;
+	if (username == undefined) username = "anonymous";
+	console.log("user:", username);
 	clients[socket.id] = username;	
 	io.emit('users updated', listClients());
 	let roomsList = persistence.listRooms();

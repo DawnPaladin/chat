@@ -6,7 +6,16 @@ if (!currentRoom) {
 	window.history.replaceState({}, '', `${location.pathname}?${searchParams}`);
 }
 
-var socket = io.connect({query: "room=" + currentRoom});
+var username;
+var usernameFromCookie = readUsernameCookie();
+if (usernameFromCookie) {
+	username = usernameFromCookie;
+	$('#username').val(username);
+} else {
+	username = "anonymous";
+}
+
+var socket = io.connect({query: "room=" + currentRoom + '&user=' + username});
 
 socket.emit('connect', currentRoom);
 $('#room-name').text(currentRoom);
@@ -42,10 +51,10 @@ $('#send-btn').on('click', function() {
 	$('#input-line').val('');
 });
 
-var username;
 $('#username').on('change', function(e) {
 	username = $(this).val();
 	socket.emit('set username', username);
+	setUsernameCookie(username);
 });
 
 $('#create-room-btn').on('click', function() {
@@ -54,3 +63,15 @@ $('#create-room-btn').on('click', function() {
 });
 
 var formatMessage = (author, msg) => `<p class='chatline'><span class='chatline-author'>${author}:</span> ${msg}`;
+
+function setUsernameCookie(name) {
+	var daysToExpiration = 7;
+	var expirationDate = new Date();
+	expirationDate.setTime(expirationDate.getTime() + (daysToExpiration * 24 * 60 * 60 * 1000));
+
+	document.cookie = `username=${name}; expires=${expirationDate.toGMTString()}; path=/`;
+}
+
+function readUsernameCookie() {
+	return document.cookie.split('=')[1];
+}
