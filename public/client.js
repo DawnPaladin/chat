@@ -41,4 +41,9 @@ $('#username').on('change', function(e) {
 	socket.emit('set username', username);
 });
 
+$('#create-room-btn').on('click', function() {
+	const roomName = window.prompt("What should the room be named?");
+	socket.emit('create room', roomName);
+});
+
 const formatMessage = (author, msg) => `<p class='chatline'><span class='chatline-author'>${author}:</span> ${msg}`;

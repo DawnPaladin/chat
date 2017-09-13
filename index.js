@@ -16,7 +16,7 @@ io.on('connect', (socket) => {
 	let username = "anonymous";
 	clients[socket.id] = username;	
 	io.emit('users updated', listClients());
-	const roomsList = persistence.listRooms();
+	let roomsList = persistence.listRooms();
 	var roomName = roomsList[0];
 	socket.emit('backscroll', persistence.loadRoom(roomName));
 	socket.emit('rooms list', roomsList);
@@ -28,6 +28,11 @@ io.on('connect', (socket) => {
 	socket.on('set username', newUsername => {
 		clients[socket.id] = username = newUsername;
 		io.emit('users updated', listClients());
+	});
+	socket.on('create room', roomName => {
+		persistence.createRoom(roomName);
+		roomsList = persistence.listRooms();
+		io.emit('rooms list', roomsList);
 	});
 	socket.on('disconnect', function() {
 		delete clients[socket.id];

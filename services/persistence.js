@@ -31,8 +31,16 @@ function loadRoom(roomName) {
 	return data;
 }
 
+function createRoom(roomName) {
+	db.update('rooms', array => {
+		array.push(roomName);
+		return array;
+	});
+}
+
 module.exports = {
 	saveLine, 
 	loadRoom,
 	listRooms,
+	createRoom,
 };
